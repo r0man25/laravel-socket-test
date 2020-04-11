@@ -6,6 +6,8 @@
 
         <title>Laravel</title>
 
+        <script src="{!! asset('js/app.js')!!}" defer></script>
+
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
@@ -93,6 +95,10 @@
                     <a href="https://forge.laravel.com">Forge</a>
                     <a href="https://vapor.laravel.com">Vapor</a>
                     <a href="https://github.com/laravel/laravel">GitHub</a>
+                </div>
+
+                <div id="app">
+                    <example-component></example-component>
                 </div>
             </div>
         </div>
