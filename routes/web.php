@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,3 +12,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'BasicVueLearnController@index');
+Route::get('/get-url-data', 'BasicVueLearnController@getUrlData');

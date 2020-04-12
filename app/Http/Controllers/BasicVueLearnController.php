@@ -33,4 +33,26 @@ class BasicVueLearnController extends Controller
             ]
         ]);
     }
+
+    /**
+     * @return array
+     */
+    public function getUrlData()
+    {
+        sleep(1);
+        return [
+            [
+                'title' => 'Git Lab',
+                'url' => 'https://about.gitlab.com/',
+            ],
+            [
+                'title' => 'Git Hub',
+                'url' => 'https://github.com/',
+            ],
+            [
+                'title' => 'Bitbucket',
+                'url' => 'https://bitbucket.org/dashboard/overview',
+            ],
+        ];
+    }
 }
