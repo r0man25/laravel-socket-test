@@ -103,6 +103,15 @@
                         <li class="nav-item">
                             <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Vue -> Blade (Ajax)</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="chart-line-tab" data-toggle="tab" href="#chart-line" role="tab" aria-controls="chart-line" aria-selected="false">Line Chart basic</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="pie-line-tab" data-toggle="tab" href="#chart-pie" role="tab" aria-controls="chart-pie" aria-selected="false">Pie Chart basic</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="chart-line-random-tab" data-toggle="tab" href="#chart-line-random" role="tab" aria-controls="chart-line-random" aria-selected="false">Line Random Chart basic</a>
+                        </li>
                     </ul>
 
                     <div class="tab-content" id="myTabContent">
@@ -124,6 +133,15 @@
                         </div>
                         <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                             <ajax-component></ajax-component>
+                        </div>
+                        <div class="tab-pane fade" id="chart-line" role="tabpanel" aria-labelledby="chart-line-tab">
+                            <line-chart-component></line-chart-component>
+                        </div>
+                        <div class="tab-pane fade" id="chart-pie" role="tabpanel" aria-labelledby="chart-pie-tab">
+                            <pie-chart-component></pie-chart-component>
+                        </div>
+                        <div class="tab-pane fade" id="chart-line-random" role="tabpanel" aria-labelledby="chart-line-random-tab">
+                            <line-random-chart-component></line-random-chart-component>
                         </div>
                     </div>
                 </div>

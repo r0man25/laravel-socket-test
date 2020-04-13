@@ -55,4 +55,50 @@ class BasicVueLearnController extends Controller
             ],
         ];
     }
+
+    public function getChartData()
+    {
+        return [
+            'labels' => ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            'datasets' => [
+                [
+                    'label' => 'Data One',
+                    'backgroundColor' => ['#f87979', '#1b4b72', '#2fa360', '#171a1d', '#9561e2', '#ffe817', '#686868'],
+                    'data' => [40, 39, 10, 40, 39, 80, 40]
+                ]
+            ]
+        ];
+    }
+
+    public function getRandomChartData()
+    {
+        return [
+            'labels' => ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            'datasets' => [
+                [
+                    'label' => 'Data One',
+                    'backgroundColor' => ['#f87979'],
+                    'data' => $this->generateRandomNumbersArray()
+                ],
+                [
+                    'label' => 'Data Two',
+                    'backgroundColor' => ['#1b4b72'],
+                    'data' => $this->generateRandomNumbersArray()
+                ],
+            ]
+        ];
+    }
+
+    private function generateRandomNumbersArray(? int $count = 7)
+    {
+        $array = [];
+        $i = 0;
+
+        while ($i <= $count) {
+            $array[] = rand(1, 100);
+            $i++;
+        }
+
+        return $array;
+    }
 }

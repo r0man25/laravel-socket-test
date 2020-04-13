@@ -24,6 +24,9 @@ window.Vue = Vue;
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('prop-component', require('./components/PropComponent.vue').default);
 Vue.component('ajax-component', require('./components/AjaxComponent.vue').default);
+Vue.component('line-chart-component', require('./components/LineChartComponent.vue').default);
+Vue.component('pie-chart-component', require('./components/PieChartComponent.vue').default);
+Vue.component('line-random-chart-component', require('./components/LineChartRandomComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
