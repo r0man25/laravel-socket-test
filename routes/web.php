@@ -15,3 +15,7 @@ Route::get('/', 'BasicVueLearnController@index');
 Route::get('/get-url-data', 'BasicVueLearnController@getUrlData');
 Route::get('/get-chart-data', 'BasicVueLearnController@getChartData');
 Route::get('/get-random-chart-data', 'BasicVueLearnController@getRandomChartData');
+
+Route::group(['prefix' => 'realtime'], function () {
+    Route::get('/socket-chart', 'RealtimeController@newEvent');
+});

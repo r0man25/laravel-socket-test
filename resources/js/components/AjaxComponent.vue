@@ -39,7 +39,6 @@
             update: function () {
                 this.isRefresh = true;
                 axios.get('/get-url-data').then((response) => {
-                    console.log(response);
                     this.urlData = response.data;
                     this.isRefresh = false;
                     this.counter++;

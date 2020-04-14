@@ -112,6 +112,9 @@
                         <li class="nav-item">
                             <a class="nav-link" id="chart-line-random-tab" data-toggle="tab" href="#chart-line-random" role="tab" aria-controls="chart-line-random" aria-selected="false">Line Random Chart basic</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="chart-line-socket-tab" data-toggle="tab" href="#chart-line-socket" role="tab" aria-controls="chart-line-socket" aria-selected="false">Line SOCKET Chart basic</a>
+                        </li>
                     </ul>
 
                     <div class="tab-content" id="myTabContent">
@@ -142,6 +145,9 @@
                         </div>
                         <div class="tab-pane fade" id="chart-line-random" role="tabpanel" aria-labelledby="chart-line-random-tab">
                             <line-random-chart-component></line-random-chart-component>
+                        </div>
+                        <div class="tab-pane fade" id="chart-line-socket" role="tabpanel" aria-labelledby="chart-line-socket-tab">
+                            <line-socket-chart-component></line-socket-chart-component>
                         </div>
                     </div>
                 </div>
