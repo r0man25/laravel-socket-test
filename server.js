@@ -14,6 +14,7 @@ let redis = new Redis({
     port: 6379, // Redis port
     host: "redis", // Redis host
 });
+
 redis.subscribe('broadcast-chart-updated', function (err, count) {
     console.log('subscribe on broadcast-chart-updated');
 }).catch();
@@ -21,6 +22,16 @@ redis.subscribe('new-message', function (err, count) {
     console.log('subscribe on new-message');
 }).catch();
 redis.on("message", function (chanel, message) {
+    console.log("Chanel --- " + chanel);
+    console.log("Message --- " + message);
+    message = JSON.parse(message);
+    io.emit(chanel + ':' + message.event, message.data);
+});
+
+redis.psubscribe('private-message.user.*', function (err, count) {
+    console.log('subscribe on private-message.user.*');
+}).catch();
+redis.on("pmessage", function (pattern, chanel, message) {
     console.log("Chanel --- " + chanel);
     console.log("Message --- " + message);
     message = JSON.parse(message);

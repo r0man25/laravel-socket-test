@@ -2391,6 +2391,89 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SocketPrivateChatComponent.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/SocketPrivateChatComponent.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      messagesData: [],
+      message: '',
+      usersList: []
+    };
+  },
+  props: ["users", "authUser"],
+  mounted: function mounted() {
+    var _this = this;
+
+    var socket = io('http://127.0.0.1:3001');
+    socket.on("private-message.user." + this.authUser.id + ":App\\Events\\NewPrivateMessageEvent", function (data) {
+      _this.messagesData.push(data.data.user + ': ' + data.data.message);
+    });
+    socket.on("private-message.user.:App\\Events\\NewPrivateMessageEvent", function (data) {
+      _this.messagesData.push(data.data.user + ': ' + data.data.message);
+    });
+  },
+  methods: {
+    sendMessage: function sendMessage() {
+      var _this2 = this;
+
+      if (!this.usersList.length) {
+        this.usersList.push('private-message.user.');
+      }
+
+      axios({
+        method: 'get',
+        url: '/realtime/send-private-message',
+        params: {
+          message: this.message,
+          channels: this.usersList,
+          user: this.authUser.email
+        }
+      }).then(function (response) {
+        if (_this2.usersList[0] !== 'private-message.user.') {
+          _this2.messagesData.push(_this2.authUser.email + ': ' + _this2.message);
+        }
+
+        _this2.message = '';
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/backo2/index.js":
 /*!**************************************!*\
   !*** ./node_modules/backo2/index.js ***!
@@ -82725,6 +82808,123 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SocketPrivateChatComponent.vue?vue&type=template&id=916ed800&":
+/*!*****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/SocketPrivateChatComponent.vue?vue&type=template&id=916ed800& ***!
+  \*****************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "col-md-8" }, [
+        _c("div", { staticClass: "row form-group" }, [
+          _c("div", { staticClass: "col-4" }, [
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.usersList,
+                    expression: "usersList"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { multiple: "" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.usersList = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              _vm._l(_vm.users, function(user) {
+                return _c(
+                  "option",
+                  { domProps: { value: "private-message.user." + user.id } },
+                  [_vm._v(_vm._s(user.email))]
+                )
+              }),
+              0
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-8" }, [
+            _c(
+              "textarea",
+              {
+                staticClass: "form-control",
+                attrs: { rows: "10", readonly: "" }
+              },
+              [_vm._v(_vm._s(_vm.messagesData.join("\n")))]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "input-group mb3" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.message,
+                expression: "message"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", placeholder: "Enter message..." },
+            domProps: { value: _vm.message },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.message = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "input-group-append" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-outline-secondary",
+                on: { click: _vm.sendMessage }
+              },
+              [_vm._v("Send")]
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js":
 /*!********************************************************************!*\
   !*** ./node_modules/vue-loader/lib/runtime/componentNormalizer.js ***!
@@ -95001,6 +95201,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('pie-chart-component', __we
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('line-random-chart-component', __webpack_require__(/*! ./components/LineChartRandomComponent.vue */ "./resources/js/components/LineChartRandomComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('line-socket-chart-component', __webpack_require__(/*! ./components/LineChartSocketComponent.vue */ "./resources/js/components/LineChartSocketComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('socket-chat-component', __webpack_require__(/*! ./components/SocketChatComponent.vue */ "./resources/js/components/SocketChatComponent.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('socket-private-chat-component', __webpack_require__(/*! ./components/SocketPrivateChatComponent.vue */ "./resources/js/components/SocketPrivateChatComponent.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -95652,6 +95853,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SocketChatComponent_vue_vue_type_template_id_c30bd692___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SocketChatComponent_vue_vue_type_template_id_c30bd692___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/SocketPrivateChatComponent.vue":
+/*!****************************************************************!*\
+  !*** ./resources/js/components/SocketPrivateChatComponent.vue ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _SocketPrivateChatComponent_vue_vue_type_template_id_916ed800___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SocketPrivateChatComponent.vue?vue&type=template&id=916ed800& */ "./resources/js/components/SocketPrivateChatComponent.vue?vue&type=template&id=916ed800&");
+/* harmony import */ var _SocketPrivateChatComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SocketPrivateChatComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/SocketPrivateChatComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _SocketPrivateChatComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _SocketPrivateChatComponent_vue_vue_type_template_id_916ed800___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _SocketPrivateChatComponent_vue_vue_type_template_id_916ed800___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/SocketPrivateChatComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/SocketPrivateChatComponent.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/SocketPrivateChatComponent.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SocketPrivateChatComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./SocketPrivateChatComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SocketPrivateChatComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SocketPrivateChatComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/SocketPrivateChatComponent.vue?vue&type=template&id=916ed800&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/SocketPrivateChatComponent.vue?vue&type=template&id=916ed800& ***!
+  \***********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SocketPrivateChatComponent_vue_vue_type_template_id_916ed800___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./SocketPrivateChatComponent.vue?vue&type=template&id=916ed800& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SocketPrivateChatComponent.vue?vue&type=template&id=916ed800&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SocketPrivateChatComponent_vue_vue_type_template_id_916ed800___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SocketPrivateChatComponent_vue_vue_type_template_id_916ed800___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

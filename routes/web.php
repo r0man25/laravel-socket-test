@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,4 +22,9 @@ Route::get('/get-random-chart-data', 'BasicVueLearnController@getRandomChartData
 Route::group(['prefix' => 'realtime'], function () {
     Route::get('/socket-chart', 'RealtimeController@newEvent');
     Route::get('/send-message', 'RealtimeController@sendMessage');
+    Route::get('/send-private-message', 'RealtimeController@sendPrivateMessage');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

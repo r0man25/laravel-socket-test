@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\NewMessageEvent;
+use App\Events\NewPrivateMessageEvent;
 use App\Events\SocketChartChangedEvent;
 use Illuminate\Http\Request;
 
@@ -43,5 +44,12 @@ class RealtimeController extends Controller
     public function sendMessage(Request $request)
     {
         event(new NewMessageEvent($request->get('message')));
+    }
+
+    public function sendPrivateMessage(Request $request)
+    {
+        event(new NewPrivateMessageEvent($request->all()));
+
+        return $request->all();
     }
 }

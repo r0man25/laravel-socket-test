@@ -118,6 +118,9 @@
                         <li class="nav-item">
                             <a class="nav-link" id="socket-chat-tab" data-toggle="tab" href="#socket-chat" role="tab" aria-controls="socket-chat" aria-selected="false">SOCKET Chat basic</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="socket-private-chat-tab" data-toggle="tab" href="#socket-private-chat" role="tab" aria-controls="socket-private-chat" aria-selected="false">SOCKET private Chat basic</a>
+                        </li>
                     </ul>
 
                     <div class="tab-content" id="myTabContent">
@@ -154,6 +157,20 @@
                         </div>
                         <div class="tab-pane fade" id="socket-chat" role="tabpanel" aria-labelledby="socket-chat-tab">
                             <socket-chat-component></socket-chat-component>
+                        </div>
+                        <div class="tab-pane fade" id="socket-private-chat" role="tabpanel" aria-labelledby="socket-private-chat-tab">
+                            @if(\Illuminate\Support\Facades\Auth::check())
+                                <h4 class="text-center">User: {{ \Illuminate\Support\Facades\Auth::user()->email }}</h4>
+                                <socket-private-chat-component
+                                    :users="{{
+                                        \App\User::query()
+                                            ->select('email', 'id')
+                                            ->where('id', '<>', \Illuminate\Support\Facades\Auth::id())
+                                            ->get()
+                                    }}"
+                                    :auth-user="{{ \Illuminate\Support\Facades\Auth::user() }}">
+                                </socket-private-chat-component>
+                            @endif
                         </div>
                     </div>
                 </div>
