@@ -115,6 +115,9 @@
                         <li class="nav-item">
                             <a class="nav-link" id="chart-line-socket-tab" data-toggle="tab" href="#chart-line-socket" role="tab" aria-controls="chart-line-socket" aria-selected="false">Line SOCKET Chart basic</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="socket-chat-tab" data-toggle="tab" href="#socket-chat" role="tab" aria-controls="socket-chat" aria-selected="false">SOCKET Chat basic</a>
+                        </li>
                     </ul>
 
                     <div class="tab-content" id="myTabContent">
@@ -148,6 +151,9 @@
                         </div>
                         <div class="tab-pane fade" id="chart-line-socket" role="tabpanel" aria-labelledby="chart-line-socket-tab">
                             <line-socket-chart-component></line-socket-chart-component>
+                        </div>
+                        <div class="tab-pane fade" id="socket-chat" role="tabpanel" aria-labelledby="socket-chat-tab">
+                            <socket-chat-component></socket-chat-component>
                         </div>
                     </div>
                 </div>

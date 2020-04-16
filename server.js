@@ -17,6 +17,9 @@ let redis = new Redis({
 redis.subscribe('broadcast-chart-updated', function (err, count) {
     console.log('subscribe on broadcast-chart-updated');
 }).catch();
+redis.subscribe('new-message', function (err, count) {
+    console.log('subscribe on new-message');
+}).catch();
 redis.on("message", function (chanel, message) {
     console.log("Chanel --- " + chanel);
     console.log("Message --- " + message);

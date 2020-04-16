@@ -18,4 +18,5 @@ Route::get('/get-random-chart-data', 'BasicVueLearnController@getRandomChartData
 
 Route::group(['prefix' => 'realtime'], function () {
     Route::get('/socket-chart', 'RealtimeController@newEvent');
+    Route::get('/send-message', 'RealtimeController@sendMessage');
 });
