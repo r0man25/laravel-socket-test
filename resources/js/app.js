@@ -31,6 +31,8 @@ Vue.component('line-socket-chart-component', require('./components/LineChartSock
 Vue.component('socket-chat-component', require('./components/SocketChatComponent.vue').default);
 Vue.component('socket-private-chat-component', require('./components/SocketPrivateChatComponent.vue').default);
 
+Vue.component('echo-chat', require('./components/EchoChatComponent.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

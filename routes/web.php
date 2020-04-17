@@ -23,6 +23,10 @@ Route::group(['prefix' => 'realtime'], function () {
     Route::get('/socket-chart', 'RealtimeController@newEvent');
     Route::get('/send-message', 'RealtimeController@sendMessage');
     Route::get('/send-private-message', 'RealtimeController@sendPrivateMessage');
+    Route::group(['prefix' => 'echo-server'], function () {
+        Route::get('/', 'EchoServerController@index');
+        Route::post('/send-message', 'EchoServerController@sendMessage');
+    });
 });
 
 Auth::routes();
