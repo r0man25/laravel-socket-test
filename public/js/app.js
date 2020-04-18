@@ -2098,6 +2098,105 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EchoPresenceChatComponent.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/EchoPresenceChatComponent.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['room', 'authUser'],
+  data: function data() {
+    return {
+      messagesData: [],
+      message: '',
+      isActive: false,
+      typingTimer: false,
+      activeUsers: []
+    };
+  },
+  computed: {
+    channel: function channel() {
+      return Echo.join('echo-presence-room.' + this.room.id);
+    }
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    this.channel.here(function (users) {
+      _this.activeUsers = users;
+    }).joining(function (user) {
+      _this.activeUsers.push(user);
+    }).leaving(function (user) {
+      _this.activeUsers.splice(_this.activeUsers.indexOf(user), 1);
+    }).listen('EchoPresenceMessageEvent', function (_ref) {
+      var data = _ref.data;
+
+      _this.messagesData.push(data.message);
+
+      _this.isActive = false;
+    }).listenForWhisper('typing', function (e) {
+      _this.isActive = e;
+
+      if (_this.typingTimer) {
+        clearTimeout(_this.typingTimer);
+      }
+
+      _this.typingTimer = setTimeout(function () {
+        _this.isActive = false;
+      }, 2000);
+    });
+  },
+  methods: {
+    sendMessage: function sendMessage() {
+      var _this2 = this;
+
+      axios({
+        method: 'post',
+        url: '/realtime/echo-server/send-private-message-presence',
+        params: {
+          message: this.message,
+          room_id: this.room.id
+        }
+      }).then(function (response) {
+        _this2.messagesData.push(_this2.message);
+
+        _this2.message = '';
+      });
+    },
+    actionWriteMessage: function actionWriteMessage() {
+      this.channel.whisper('typing', {
+        userName: this.authUser.name
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EchoPrivateChatComponent.vue?vue&type=script&lang=js&":
 /*!***********************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/EchoPrivateChatComponent.vue?vue&type=script&lang=js& ***!
@@ -83438,6 +83537,100 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EchoPresenceChatComponent.vue?vue&type=template&id=cd19b86c&":
+/*!****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/EchoPresenceChatComponent.vue?vue&type=template&id=cd19b86c& ***!
+  \****************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("hr"),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c(
+        "div",
+        { staticClass: "col-md-8" },
+        [
+          _c(
+            "textarea",
+            {
+              staticClass: "form-control",
+              attrs: { rows: "10", readonly: "" }
+            },
+            [_vm._v(_vm._s(_vm.messagesData.join("\n")))]
+          ),
+          _vm._v(" "),
+          _c("hr"),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.message,
+                expression: "message"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", placeholder: "Enter message..." },
+            domProps: { value: _vm.message },
+            on: {
+              keyup: function($event) {
+                if (
+                  !$event.type.indexOf("key") &&
+                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                ) {
+                  return null
+                }
+                return _vm.sendMessage($event)
+              },
+              keydown: _vm.actionWriteMessage,
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.message = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _vm.isActive
+            ? _c("spn", [
+                _vm._v(_vm._s(_vm.isActive.userName) + " write message...")
+              ])
+            : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-4" }, [
+        _c(
+          "ul",
+          _vm._l(_vm.activeUsers, function(user) {
+            return _c("li", [_vm._v(_vm._s(user.name))])
+          }),
+          0
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EchoPrivateChatComponent.vue?vue&type=template&id=5deb5172&":
 /*!***************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/EchoPrivateChatComponent.vue?vue&type=template&id=5deb5172& ***!
@@ -96356,6 +96549,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('socket-chat-component', __
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('socket-private-chat-component', __webpack_require__(/*! ./components/SocketPrivateChatComponent.vue */ "./resources/js/components/SocketPrivateChatComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('echo-chat', __webpack_require__(/*! ./components/EchoChatComponent.vue */ "./resources/js/components/EchoChatComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('echo-private-chat', __webpack_require__(/*! ./components/EchoPrivateChatComponent.vue */ "./resources/js/components/EchoPrivateChatComponent.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('echo-presence-chat', __webpack_require__(/*! ./components/EchoPresenceChatComponent.vue */ "./resources/js/components/EchoPresenceChatComponent.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -96559,6 +96753,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EchoChatComponent_vue_vue_type_template_id_1cc898f6___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EchoChatComponent_vue_vue_type_template_id_1cc898f6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/EchoPresenceChatComponent.vue":
+/*!***************************************************************!*\
+  !*** ./resources/js/components/EchoPresenceChatComponent.vue ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _EchoPresenceChatComponent_vue_vue_type_template_id_cd19b86c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EchoPresenceChatComponent.vue?vue&type=template&id=cd19b86c& */ "./resources/js/components/EchoPresenceChatComponent.vue?vue&type=template&id=cd19b86c&");
+/* harmony import */ var _EchoPresenceChatComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EchoPresenceChatComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/EchoPresenceChatComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _EchoPresenceChatComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _EchoPresenceChatComponent_vue_vue_type_template_id_cd19b86c___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _EchoPresenceChatComponent_vue_vue_type_template_id_cd19b86c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/EchoPresenceChatComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/EchoPresenceChatComponent.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/EchoPresenceChatComponent.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EchoPresenceChatComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./EchoPresenceChatComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EchoPresenceChatComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EchoPresenceChatComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/EchoPresenceChatComponent.vue?vue&type=template&id=cd19b86c&":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/components/EchoPresenceChatComponent.vue?vue&type=template&id=cd19b86c& ***!
+  \**********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EchoPresenceChatComponent_vue_vue_type_template_id_cd19b86c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./EchoPresenceChatComponent.vue?vue&type=template&id=cd19b86c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EchoPresenceChatComponent.vue?vue&type=template&id=cd19b86c&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EchoPresenceChatComponent_vue_vue_type_template_id_cd19b86c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EchoPresenceChatComponent_vue_vue_type_template_id_cd19b86c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

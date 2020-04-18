@@ -29,6 +29,7 @@ Route::group(['prefix' => 'realtime'], function () {
 
         Route::get('/room/{room}', 'EchoServerController@getRoom');
         Route::post('/send-private-message', 'EchoServerController@sendPrivateMessage');
+        Route::post('/send-private-message-presence', 'EchoServerController@sendPrivateMessagePresence');
     });
 });
 

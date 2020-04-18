@@ -20,3 +20,11 @@ use Illuminate\Support\Facades\Broadcast;
 Broadcast::channel('echo-room.{id}', function (\App\User $user, $id) {
     return $user->rooms->contains($id);
 });
+
+Broadcast::channel('echo-presence-room.{id}', function (\App\User $user, $id) {
+    if ($user->rooms->contains($id)) {
+        return $user;
+    }
+
+    return false;
+});

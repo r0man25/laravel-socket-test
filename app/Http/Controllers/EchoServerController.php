@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\EchoMessageEvent;
+use App\Events\EchoPresenceMessageEvent;
 use App\Events\EchoPrivateMessageEvent;
 use App\Room;
 use Illuminate\Http\Request;
@@ -31,5 +32,10 @@ class EchoServerController extends Controller
     public function sendPrivateMessage(Request $request)
     {
         event(new EchoPrivateMessageEvent($request->all()));
+    }
+
+    public function sendPrivateMessagePresence(Request $request)
+    {
+        event(new EchoPresenceMessageEvent($request->all()));
     }
 }
