@@ -32,6 +32,7 @@ Vue.component('socket-chat-component', require('./components/SocketChatComponent
 Vue.component('socket-private-chat-component', require('./components/SocketPrivateChatComponent.vue').default);
 
 Vue.component('echo-chat', require('./components/EchoChatComponent.vue').default);
+Vue.component('echo-private-chat', require('./components/EchoPrivateChatComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

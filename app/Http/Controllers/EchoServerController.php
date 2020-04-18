@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Events\EchoMessageEvent;
+use App\Events\EchoPrivateMessageEvent;
+use App\Room;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 /**
  * Class EchoServerController
@@ -14,12 +15,21 @@ class EchoServerController extends Controller
 {
     public function index()
     {
-        Auth::user();
         return view('echo-server.chat');
     }
 
     public function sendMessage(Request $request)
     {
         event(new EchoMessageEvent($request->get('message')));
+    }
+
+    public function getRoom(Room $room)
+    {
+        return view('echo-server.room', ['room' => $room]);
+    }
+
+    public function sendPrivateMessage(Request $request)
+    {
+        event(new EchoPrivateMessageEvent($request->all()));
     }
 }
