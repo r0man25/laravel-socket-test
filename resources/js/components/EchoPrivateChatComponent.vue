@@ -6,7 +6,8 @@
                 <textarea rows="10" readonly class="form-control">{{messagesData.join('\n')}}</textarea>
                 <hr>
                 <input type="text" class="form-control" placeholder="Enter message..." v-model="message"
-                       @keyup.enter="sendMessage">
+                       @keyup.enter="sendMessage" @keydown="actionWriteMessage">
+                <spn v-if="isActive">{{isActive.userName}} write message...</spn>
             </div>
         </div>
     </div>
@@ -14,17 +15,36 @@
 
 <script>
     export default {
-        props: ['room'],
+        props: ['room', 'authUser'],
         data: function () {
             return {
                 messagesData: [],
-                message: ''
+                message: '',
+                isActive: false,
+                typingTimer: false,
+            }
+        },
+        computed: {
+            channel() {
+                return Echo.private('echo-room.' + this.room.id);
             }
         },
         mounted() {
-            Echo.private('echo-room.' + this.room.id)
+            this.channel
                 .listen('EchoPrivateMessageEvent', ({data}) => {
                     this.messagesData.push(data.message);
+                    this.isActive = false;
+                })
+                .listenForWhisper('typing', (e) => {
+                    this.isActive = e;
+
+                    if (this.typingTimer) {
+                        clearTimeout(this.typingTimer);
+                    }
+
+                    this.typingTimer = setTimeout(() => {
+                        this.isActive = false;
+                    }, 2000);
                 });
         },
         methods: {
@@ -40,6 +60,12 @@
                     this.messagesData.push(this.message);
                     this.message = '';
                 })
+            },
+            actionWriteMessage: function () {
+                this.channel
+                    .whisper('typing', {
+                        userName: this.authUser.name
+                    })
             }
         }
     }

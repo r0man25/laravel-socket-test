@@ -2121,21 +2121,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['room'],
+  props: ['room', 'authUser'],
   data: function data() {
     return {
       messagesData: [],
-      message: ''
+      message: '',
+      isActive: false,
+      typingTimer: false
     };
+  },
+  computed: {
+    channel: function channel() {
+      return Echo["private"]('echo-room.' + this.room.id);
+    }
   },
   mounted: function mounted() {
     var _this = this;
 
-    Echo["private"]('echo-room.' + this.room.id).listen('EchoPrivateMessageEvent', function (_ref) {
+    this.channel.listen('EchoPrivateMessageEvent', function (_ref) {
       var data = _ref.data;
 
       _this.messagesData.push(data.message);
+
+      _this.isActive = false;
+    }).listenForWhisper('typing', function (e) {
+      _this.isActive = e;
+
+      if (_this.typingTimer) {
+        clearTimeout(_this.typingTimer);
+      }
+
+      _this.typingTimer = setTimeout(function () {
+        _this.isActive = false;
+      }, 2000);
     });
   },
   methods: {
@@ -2153,6 +2173,11 @@ __webpack_require__.r(__webpack_exports__);
         _this2.messagesData.push(_this2.message);
 
         _this2.message = '';
+      });
+    },
+    actionWriteMessage: function actionWriteMessage() {
+      this.channel.whisper('typing', {
+        userName: this.authUser.name
       });
     }
   }
@@ -83432,46 +83457,61 @@ var render = function() {
     _c("hr"),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-12" }, [
-        _c(
-          "textarea",
-          { staticClass: "form-control", attrs: { rows: "10", readonly: "" } },
-          [_vm._v(_vm._s(_vm.messagesData.join("\n")))]
-        ),
-        _vm._v(" "),
-        _c("hr"),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
+      _c(
+        "div",
+        { staticClass: "col-md-12" },
+        [
+          _c(
+            "textarea",
             {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.message,
-              expression: "message"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: { type: "text", placeholder: "Enter message..." },
-          domProps: { value: _vm.message },
-          on: {
-            keyup: function($event) {
-              if (
-                !$event.type.indexOf("key") &&
-                _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-              ) {
-                return null
-              }
-              return _vm.sendMessage($event)
+              staticClass: "form-control",
+              attrs: { rows: "10", readonly: "" }
             },
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+            [_vm._v(_vm._s(_vm.messagesData.join("\n")))]
+          ),
+          _vm._v(" "),
+          _c("hr"),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.message,
+                expression: "message"
               }
-              _vm.message = $event.target.value
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", placeholder: "Enter message..." },
+            domProps: { value: _vm.message },
+            on: {
+              keyup: function($event) {
+                if (
+                  !$event.type.indexOf("key") &&
+                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                ) {
+                  return null
+                }
+                return _vm.sendMessage($event)
+              },
+              keydown: _vm.actionWriteMessage,
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.message = $event.target.value
+              }
             }
-          }
-        })
-      ])
+          }),
+          _vm._v(" "),
+          _vm.isActive
+            ? _c("spn", [
+                _vm._v(_vm._s(_vm.isActive.userName) + " write message...")
+              ])
+            : _vm._e()
+        ],
+        1
+      )
     ])
   ])
 }
